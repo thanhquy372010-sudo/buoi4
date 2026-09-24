@@ -1,0 +1,94 @@
+using System;
+using System.Windows.Forms;
+
+namespace WinFormsApp2
+{
+    public partial class Form1 : Form
+    {
+        public Form1()
+        {
+            InitializeComponent();
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            // Thêm dữ liệu mẫu (Sử dụng tên bảng là dgvNhanVien)
+            dgvNhanVien.Rows.Add("NV001", "Nguyễn Thị Thu Hiền", "8500000");
+        }
+
+        // 1. Nút THÊM
+        private void btnThem_Click(object sender, EventArgs e)
+        {
+            NhanVien frm = new NhanVien(); // Gọi form phụ NhanVien
+            frm.Text = "Thêm Nhân Viên";
+
+            if (frm.ShowDialog() == DialogResult.OK)
+            {
+                // Thêm vào bảng dgvNhanVien
+                dgvNhanVien.Rows.Add(frm.MSNV, frm.TenNV, frm.LuongCB);
+            }
+        }
+
+        // 2. Nút SỬA (button2)
+        private void button2_Click(object sender, EventArgs e)
+        {
+            if (dgvNhanVien.SelectedRows.Count > 0)
+            {
+                DataGridViewRow row = dgvNhanVien.SelectedRows[0];
+
+                if (row.IsNewRow) return;
+
+                NhanVien frm = new NhanVien(); // Gọi form phụ NhanVien
+                frm.Text = "Sửa Nhân Viên";
+
+                // Đưa dữ liệu cũ lên form phụ
+                frm.MSNV = row.Cells["MSNV"].Value?.ToString();
+                frm.TenNV = row.Cells["TenNV"].Value?.ToString();
+                frm.LuongCB = row.Cells["LuongCB"].Value?.ToString();
+
+                if (frm.ShowDialog() == DialogResult.OK)
+                {
+                    // Cập nhật lại dữ liệu mới vào bảng dgvNhanVien
+                    row.Cells["MSNV"].Value = frm.MSNV;
+                    row.Cells["TenNV"].Value = frm.TenNV;
+                    row.Cells["LuongCB"].Value = frm.LuongCB;
+                }
+            }
+            else
+            {
+                MessageBox.Show("Vui lòng chọn nhân viên cần sửa trên bảng!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+
+        // 3. Nút XÓA
+        private void btnXoa_Click(object sender, EventArgs e)
+        {
+            if (dgvNhanVien.SelectedRows.Count > 0)
+            {
+                DataGridViewRow row = dgvNhanVien.SelectedRows[0];
+
+                if (!row.IsNewRow)
+                {
+                    DialogResult hoi = MessageBox.Show("Bạn có chắc chắn muốn xóa nhân viên này không?", "Xác nhận xóa", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                    if (hoi == DialogResult.Yes)
+                    {
+                        dgvNhanVien.Rows.Remove(row);
+                    }
+                }
+            }
+            else
+            {
+                MessageBox.Show("Vui lòng chọn nhân viên cần xóa trên bảng!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+
+        // 4. Nút ĐÓNG
+        private void btnDong_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void dgvNhanVien_SelectedIndexChanged(object sender, EventArgs e) { }
+        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e) { }
+    }
+}
