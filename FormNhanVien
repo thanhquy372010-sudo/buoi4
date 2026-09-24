@@ -1,0 +1,79 @@
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Text;
+using System.Windows.Forms;
+
+namespace WinFormsApp2
+{
+    public partial class NhanVien : Form
+    {
+
+        // Public properties to expose form fields to caller (Form1)
+        [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public string MSNV
+        {
+            get => txtMSNV.Text;
+            set => txtMSNV.Text = value;
+        }
+
+        [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public string TenNV
+        {
+            get => txtTenNV.Text;
+            set => txtTenNV.Text = value;
+        }
+
+        [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public string LuongCB
+        {
+            get => txtLuongCB.Text;
+            set => txtLuongCB.Text = value;
+        }
+
+
+        public NhanVien()
+        {
+            InitializeComponent();
+        }
+
+        private void label3_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox3_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void FormNhanVien_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnBoQua_Click(object sender, EventArgs e)
+        {
+            this.DialogResult = DialogResult.Cancel;
+            this.Close();
+        }
+
+        private void btnDongY_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(txtMSNV.Text) || string.IsNullOrEmpty(txtTenNV.Text) || string.IsNullOrEmpty(txtLuongCB.Text))
+            {
+                MessageBox.Show("Vui lòng nhập đầy đủ thông tin!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            // Đặt kết quả trả về là OK để Form1 biết đường nhận dữ liệu
+            this.DialogResult = DialogResult.OK;
+            this.Close();
+        }
+    }
+}
